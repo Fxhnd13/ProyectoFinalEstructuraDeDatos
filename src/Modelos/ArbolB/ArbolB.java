@@ -254,7 +254,7 @@ public class ArbolB {
                 System.out.println (ioe);
         }
         try {
-            Thread.sleep (150);
+            Thread.sleep (200);
         } catch (Exception e) {
         // Mensaje en caso de que falle
         }

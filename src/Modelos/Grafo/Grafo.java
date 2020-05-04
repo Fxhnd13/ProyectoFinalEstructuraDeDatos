@@ -144,7 +144,7 @@ public class Grafo {
         }
         
         try {
-            Thread.sleep (150);
+            Thread.sleep (200);
         } catch (Exception e) {
         // Mensaje en caso de que falle
         }
