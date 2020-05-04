@@ -5,11 +5,14 @@
  */
 package Controladores;
 
+import Modelos.Grafo.Arista;
 import Modelos.Grafo.Grafo;
 import Modelos.Grafo.Nodo;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -25,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -49,6 +53,8 @@ public class VistaPrincipalController implements Initializable {
     private ComboBox<String> DestinoComboBox;
 
     private Grafo grafo;
+    @FXML
+    private CheckBox VerDatosCheckBox;
     /**
      * Initializes the controller class.
      */
@@ -75,10 +81,10 @@ public class VistaPrincipalController implements Initializable {
         this.RecargarImagen(null);
     }
     
-    public void cargarImagenDirigida(){
+    public void cargarImagenDirigida(boolean datos){
         InputStream isImage = null;
         try {
-            this.grafo.generarImagenDirigida();
+            this.grafo.generarImagenDirigida(datos);
             File img = new File("src\\Images\\grafo.png");
             isImage = (InputStream) new FileInputStream(img);
             this.ImagenGrafo.setImage(new Image(isImage));
@@ -93,10 +99,10 @@ public class VistaPrincipalController implements Initializable {
         }
     }
     
-    public void cargarImagenSinDirigir(){
+    public void cargarImagenSinDirigir(boolean datos){
         InputStream isImage = null;
         try {
-            this.grafo.generarImagenSinDirigir();
+            this.grafo.generarImagenSinDirigir(datos);
             File img = new File("src\\Images\\grafo.png");
             isImage = (InputStream) new FileInputStream(img);
             this.ImagenGrafo.setImage(new Image(isImage));
@@ -149,11 +155,11 @@ public class VistaPrincipalController implements Initializable {
     private void RecargarImagen(ActionEvent event) {
         switch(this.TipoMovimientoComboBox.getSelectionModel().getSelectedIndex()){
             case 0:{
-                this.cargarImagenDirigida();
+                this.cargarImagenDirigida(this.VerDatosCheckBox.isSelected());
                 break;
             }
             case 1:{
-                this.cargarImagenSinDirigir();
+                this.cargarImagenSinDirigir(this.VerDatosCheckBox.isSelected());
                 break;
             }
         }

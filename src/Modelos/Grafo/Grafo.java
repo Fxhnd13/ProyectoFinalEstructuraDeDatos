@@ -103,7 +103,7 @@ public class Grafo {
         this.aristas = aristas;
     }
 
-    public void generarImagenDirigida() {
+    public void generarImagenDirigida(boolean datos) {
         FileWriter flwriter = null;
         try {
             String cadena = "digraph G{\n     node[shape=circle];\n"
@@ -111,7 +111,9 @@ public class Grafo {
                 + "     node[fillcolor=\"#EEEEEE\"];\n"
                 + "     edge[color=\"#31CEF0\"];";
             for (Arista arista : aristas) {
-                cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino()+";";
+                String datosArista = "[label=\"Tiempo: "+arista.getTiempoV()+"\nGasolina: "+arista.getGasolina()+"\"];";
+                cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
+                cadena += (datos)? datosArista : ";";
             }
             cadena += "\n     "+posicionActual+"[fillcolor=\"forestgreen\"];\n     rankdir=LR;\n}";
                 //crea el flujo para escribir en el archivo
@@ -136,16 +138,19 @@ public class Grafo {
         try {
             String [] cmd = {"dot","-Tpng","-o", "src/Images/grafo.png", "src/Images/grafo.dot"};
             Runtime.getRuntime().exec(cmd);
-
-//            File objetofile = new File ("src/Images/grafo.png");
-//            Desktop.getDesktop().open(objetofile);
-            
         } catch (IOException ioe) {
                 System.out.println (ioe);
         }
+        
+        try {
+            Thread.sleep (150);
+        } catch (Exception e) {
+        // Mensaje en caso de que falle
+        }
+        
     }
     
-    public void generarImagenSinDirigir(){
+    public void generarImagenSinDirigir(boolean datos){
         FileWriter flwriter = null;
         try {
             String cadena = "digraph G{\n     node[shape=circle];\n"
@@ -154,9 +159,9 @@ public class Grafo {
                 + "     edge[color=\"#31CEF0\"];\n"
                 + "     edge[arrowhead=\"none\"];";
             for (Arista arista : aristas) {
+                String datosArista = "[label=\"Tiempo: "+arista.getTiempoC()+"\nGasolina: "+arista.getEsfuerzo()+"\"];";
                 cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
-//                        + "[label=\""+"Tiempo_Vehiculo: "+arista.getTiempoV()+""
-//                + "\nTiempo_Caminando: "+arista.getTiempoC()+"\nGasolina: "+arista.getGasolina()+"\nEsfuerzo: "+arista.getEsfuerzo()+"\"];";
+                cadena += (datos)? datosArista : ";";
             }
             cadena += "\n     "+posicionActual+"[fillcolor=\"forestgreen\"];\n     rankdir=LR;\n}";
                 //crea el flujo para escribir en el archivo
@@ -181,12 +186,14 @@ public class Grafo {
         try {
             String [] cmd = {"dot","-Tpng","-o", "src/Images/grafo.png", "src/Images/grafo.dot"};
             Runtime.getRuntime().exec(cmd);
-
-//            File objetofile = new File ("src/Images/grafo.png");
-//            Desktop.getDesktop().open(objetofile);
             
         } catch (IOException ioe) {
                 System.out.println (ioe);
+        }
+        try {
+            Thread.sleep (150);
+        } catch (Exception e) {
+        // Mensaje en caso de que falle
         }
     }
         

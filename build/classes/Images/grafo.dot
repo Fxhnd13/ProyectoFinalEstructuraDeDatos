@@ -3,11 +3,10 @@ digraph G{
      node[style=filled];
      node[fillcolor="#EEEEEE"];
      edge[color="#31CEF0"];
-     edge[arrowhead="none"];
-     guatemala->escuintla
-     guatemala->antigua
-     suchitepequez->escuintla
-     quetzaltenango->suchitepequez
-     guatemala[fillcolor="forestgreen"];
+     guatemala->escuintla;
+     guatemala->antigua;
+     suchitepequez->escuintla;
+     quetzaltenango->suchitepequez;
+     antigua[fillcolor="forestgreen"];
      rankdir=LR;
 }
