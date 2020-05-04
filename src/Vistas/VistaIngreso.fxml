@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="144.0" prefWidth="331.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="Controladores.VistaIngresoController">
+   <children>
+      <Button fx:id="CargarMapaButton" layoutX="126.0" layoutY="24.0" mnemonicParsing="false" onAction="#CargarMapa" text="Cargar Mapa" />
+      <Button fx:id="VerMapaButton" disable="true" layoutX="222.0" layoutY="103.0" mnemonicParsing="false" onAction="#VerMapa" text="Ver Mapa" />
+      <Label layoutX="42.0" layoutY="81.0" text="Posicion Actual" />
+      <ComboBox fx:id="PosicionesComboBox" disable="true" layoutX="42.0" layoutY="103.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

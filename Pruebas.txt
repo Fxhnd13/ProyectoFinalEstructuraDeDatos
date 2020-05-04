@@ -1,0 +1,4 @@
+guatemala,escuintla,1,10,20,50
+guatemala,antigua,2,20,40,100
+suchitepequez,escuintla,2,20,40,100
+quetzaltenango,suchitepequez,2.5,25,50,125

@@ -1,0 +1,12 @@
+digraph G{
+     node[shape=circle];
+     node[style=filled];
+     node[fillcolor="#EEEEEE"];
+     edge[color="#31CEF0"];
+     guatemala->escuintla;
+     guatemala->antigua;
+     suchitepequez->escuintla;
+     quetzaltenango->suchitepequez;
+     guatemala[fillcolor="forestgreen"];
+     rankdir=LR;
+}
