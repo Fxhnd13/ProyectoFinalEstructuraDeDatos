@@ -63,6 +63,7 @@ public class VistaPrincipalController implements Initializable {
     
     private Grafo grafo;
     private ArbolB arbol = new ArbolB(5);
+    
     /**
      * Initializes the controller class.
      */
@@ -72,11 +73,14 @@ public class VistaPrincipalController implements Initializable {
     }    
 
     public void inicializar(Grafo grafo, int indice){
-        this.grafo = grafo;
-        ObservableList<String> tiposMovimiento = FXCollections.observableArrayList();
+        this.grafo = grafo; //creamos el grafo para este mapa
+        
+        ObservableList<String> tiposMovimiento = FXCollections.observableArrayList(); //agregamos los tipos de movimiento
         tiposMovimiento.add("Vehiculo");
         tiposMovimiento.add("Caminando");
-        this.TipoMovimientoComboBox.setItems(tiposMovimiento);
+        this.TipoMovimientoComboBox.setItems(tiposMovimiento); 
+        
+        //agregamos los destinos y origenes disponibles
         ObservableList<String> nodosCombo = FXCollections.observableArrayList();
         for (Nodo nodo : grafo.getNodos()) {
             nodosCombo.add(nodo.getIdentidad());
@@ -85,32 +89,17 @@ public class VistaPrincipalController implements Initializable {
         this.OrigenComboBox.getSelectionModel().select(indice);
         this.grafo.setPosicionActual(grafo.getNodos().get(indice).getIdentidad());
         this.DestinoComboBox.setItems(nodosCombo);
+        
         this.TipoMovimientoComboBox.getSelectionModel().select(0);
+        
+        //cargamos la imagen del grafo
         this.RecargarImagen(null);
     }
     
-    public void cargarImagenDirigida(boolean datos){
+    public void cargarImagen(boolean datos, int opcion){
         InputStream isImage = null;
         try {
-            this.grafo.generarImagenDirigida(datos);
-            File img = new File("src\\Images\\grafo.png");
-            isImage = (InputStream) new FileInputStream(img);
-            this.ImagenGrafo.setImage(new Image(isImage));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VistaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                isImage.close();
-            } catch (IOException ex) {
-                Logger.getLogger(VistaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public void cargarImagenSinDirigir(boolean datos){
-        InputStream isImage = null;
-        try {
-            this.grafo.generarImagenSinDirigir(datos);
+            this.grafo.generarImagen(datos, opcion);
             File img = new File("src\\Images\\grafo.png");
             isImage = (InputStream) new FileInputStream(img);
             this.ImagenGrafo.setImage(new Image(isImage));
@@ -161,16 +150,7 @@ public class VistaPrincipalController implements Initializable {
 
     @FXML
     private void RecargarImagen(ActionEvent event) {
-        switch(this.TipoMovimientoComboBox.getSelectionModel().getSelectedIndex()){
-            case 0:{
-                this.cargarImagenDirigida(this.VerDatosCheckBox.isSelected());
-                break;
-            }
-            case 1:{
-                this.cargarImagenSinDirigir(this.VerDatosCheckBox.isSelected());
-                break;
-            }
-        }
+        this.cargarImagen(this.VerDatosCheckBox.isSelected(), this.TipoMovimientoComboBox.getSelectionModel().getSelectedIndex());
     }
 
     @FXML

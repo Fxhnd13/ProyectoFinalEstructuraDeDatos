@@ -7,6 +7,6 @@ digraph G{
      guatemala->antigua;
      suchitepequez->escuintla;
      quetzaltenango->suchitepequez;
-     guatemala[fillcolor="forestgreen"];
+     antigua[fillcolor="forestgreen"];
      rankdir=LR;
 }

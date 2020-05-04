@@ -103,13 +103,14 @@ public class Grafo {
         this.aristas = aristas;
     }
 
-    public void generarImagenDirigida(boolean datos) {
+    public void generarImagen(boolean datos, int opcion) {
         FileWriter flwriter = null;
         try {
             String cadena = "digraph G{\n     node[shape=circle];\n"
                 + "     node[style=filled];\n"
                 + "     node[fillcolor=\"#EEEEEE\"];\n"
                 + "     edge[color=\"#31CEF0\"];";
+            if(opcion == 1) cadena+= "     edge[arrowhead=\"none\"];";
             for (Arista arista : aristas) {
                 String datosArista = "[label=\"Tiempo: "+arista.getTiempoV()+"\nGasolina: "+arista.getGasolina()+"\"];";
                 cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
@@ -148,53 +149,6 @@ public class Grafo {
         // Mensaje en caso de que falle
         }
         
-    }
-    
-    public void generarImagenSinDirigir(boolean datos){
-        FileWriter flwriter = null;
-        try {
-            String cadena = "digraph G{\n     node[shape=circle];\n"
-                + "     node[style=filled];\n"
-                + "     node[fillcolor=\"#EEEEEE\"];\n"
-                + "     edge[color=\"#31CEF0\"];\n"
-                + "     edge[arrowhead=\"none\"];";
-            for (Arista arista : aristas) {
-                String datosArista = "[label=\"Tiempo: "+arista.getTiempoC()+"\nGasolina: "+arista.getEsfuerzo()+"\"];";
-                cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
-                cadena += (datos)? datosArista : ";";
-            }
-            cadena += "\n     "+posicionActual+"[fillcolor=\"forestgreen\"];\n     rankdir=LR;\n}";
-                //crea el flujo para escribir en el archivo
-                flwriter = new FileWriter("src/Images/grafo.dot");
-                //crea un buffer o flujo intermedio antes de escribir directamente en el archivo
-                BufferedWriter bfwriter = new BufferedWriter(flwriter);
-                bfwriter.write(cadena);
-                //cierra el buffer intermedio
-                bfwriter.close();
-        } catch (IOException e) {
-                e.printStackTrace();
-        } finally {
-                if (flwriter != null) {
-                        try {//cierra el flujo principal
-                                flwriter.close();
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
-                }
-        }
-        
-        try {
-            String [] cmd = {"dot","-Tpng","-o", "src/Images/grafo.png", "src/Images/grafo.dot"};
-            Runtime.getRuntime().exec(cmd);
-            
-        } catch (IOException ioe) {
-                System.out.println (ioe);
-        }
-        try {
-            Thread.sleep (150);
-        } catch (Exception e) {
-        // Mensaje en caso de que falle
-        }
     }
         
 }
