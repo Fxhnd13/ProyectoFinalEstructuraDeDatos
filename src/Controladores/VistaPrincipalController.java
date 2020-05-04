@@ -5,6 +5,7 @@
  */
 package Controladores;
 
+import Modelos.ArbolB.ArbolB;
 import Modelos.Grafo.Arista;
 import Modelos.Grafo.Grafo;
 import Modelos.Grafo.Nodo;
@@ -30,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,9 +54,15 @@ public class VistaPrincipalController implements Initializable {
     @FXML
     private ComboBox<String> DestinoComboBox;
 
-    private Grafo grafo;
     @FXML
     private CheckBox VerDatosCheckBox;
+    @FXML
+    private ImageView ImagenArbol;
+    @FXML
+    private TextField DatoArbol;
+    
+    private Grafo grafo;
+    private ArbolB arbol = new ArbolB(5);
     /**
      * Initializes the controller class.
      */
@@ -161,6 +169,31 @@ public class VistaPrincipalController implements Initializable {
             case 1:{
                 this.cargarImagenSinDirigir(this.VerDatosCheckBox.isSelected());
                 break;
+            }
+        }
+    }
+
+    @FXML
+    private void InsertarDato(ActionEvent event) {
+        InputStream isImage = null;
+        try{
+            int clave = Integer.parseInt(this.DatoArbol.getText());
+            if(this.arbol.insertar(clave)){
+                ArbolB nuevoNodo = new ArbolB(this.arbol.getGrado());
+                this.arbol.CrearNuevoNodo(nuevoNodo, this.arbol);
+                this.arbol = nuevoNodo;
+            }
+            this.arbol.generarGrafico();
+            File img = new File("src\\Images\\arbol.png");
+            isImage = (InputStream) new FileInputStream(img);
+            this.ImagenArbol.setImage(new Image(isImage));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(VistaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                isImage.close();
+            } catch (IOException ex) {
+                Logger.getLogger(VistaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

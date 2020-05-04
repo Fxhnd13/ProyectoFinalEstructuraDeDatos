@@ -5,6 +5,10 @@
  */
 package Modelos.ArbolB;
 
+import Modelos.Grafo.Arista;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -195,5 +199,65 @@ public class ArbolB {
         padre.getHijos().add(nodoDerecho);
     }
     
+    public int escribirNodo(DatosArbol datos, int idPadre, int idPadrePadre){
+        //if(id != idPadre) hay que señalar del padre al hijo.
+        ArrayList<Integer> padres = new ArrayList<Integer>();
+        if(datos.id != idPadre && datos.id != idPadrePadre) datos.cadena+="\"nodo"+(idPadrePadre)+"\":nodo"+(idPadre)+" -> nodo"+datos.id+";\n";
+        datos.cadena+="nodo"+(datos.id++); padres.add(datos.id-1);
+        datos.cadena+="[label=\"<nodo"+(datos.id++); padres.add(datos.id-1);
+        datos.cadena+=">|<nodo"+(datos.id++);
+        datos.cadena+=">"+this.getClaves().get(0)+"|<nodo"+(datos.id++); padres.add(datos.id-1);
+        datos.cadena+=">";
+        for (int i = 1; i < this.claves.size(); i++) {
+            datos.cadena+= "|<nodo"+(datos.id++)+">"+this.claves.get(i)+"|<nodo"+(datos.id++)+">"; padres.add(datos.id-1);
+        }
+        datos.cadena+="\"];\n";
+        if(!this.hijos.isEmpty()){
+            for (int i = 0; i < this.hijos.size(); i++) {
+                datos.id = this.hijos.get(i).escribirNodo(datos, padres.get(i+1), padres.get(0));
+            }
+        }
+        return datos.id;
+    }
+
+    public void generarGrafico() {
+        DatosArbol datos = new DatosArbol();
+        datos.cadena += "digraph{\nnode [shape = record, height=.1];\n";
+        this.escribirNodo(datos, 0, 0);
+        datos.cadena += "}";
+        FileWriter flwriter = null;
+        try {
+                //crea el flujo para escribir en el archivo
+                flwriter = new FileWriter("src/Images/arbol.dot");
+                //crea un buffer o flujo intermedio antes de escribir directamente en el archivo
+                BufferedWriter bfwriter = new BufferedWriter(flwriter);
+                bfwriter.write(datos.cadena);
+                //cierra el buffer intermedio
+                bfwriter.close();
+        } catch (IOException e) {
+                e.printStackTrace();
+        } finally {
+                if (flwriter != null) {
+                        try {//cierra el flujo principal
+                                flwriter.close();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+        }
+        
+        try {
+            String [] cmd = {"dot","-Tpng","-o", "src/Images/arbol.png", "src/Images/arbol.dot"};
+            Runtime.getRuntime().exec(cmd);
+            
+        } catch (IOException ioe) {
+                System.out.println (ioe);
+        }
+        try {
+            Thread.sleep (150);
+        } catch (Exception e) {
+        // Mensaje en caso de que falle
+        }
+    }
     
 }

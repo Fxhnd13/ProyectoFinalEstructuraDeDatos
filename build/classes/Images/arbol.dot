@@ -1,0 +1,4 @@
+digraph{
+node [shape = record, height=.1];
+nodo0[label="<nodo1>|<nodo2>23|<nodo3>|<nodo4>45|<nodo5>|<nodo6>56|<nodo7>|<nodo8>56|<nodo9>|<nodo10>56|<nodo11>|<nodo12>56|<nodo13>|<nodo14>56|<nodo15>|<nodo16>56|<nodo17>|<nodo18>56|<nodo19>|<nodo20>56|<nodo21>|<nodo22>56|<nodo23>|<nodo24>56|<nodo25>|<nodo26>56|<nodo27>|<nodo28>56|<nodo29>|<nodo30>56|<nodo31>|<nodo32>56|<nodo33>|<nodo34>56|<nodo35>|<nodo36>56|<nodo37>|<nodo38>56|<nodo39>|<nodo40>56|<nodo41>|<nodo42>56|<nodo43>|<nodo44>56|<nodo45>|<nodo46>56|<nodo47>|<nodo48>56|<nodo49>|<nodo50>56|<nodo51>|<nodo52>56|<nodo53>|<nodo54>56|<nodo55>|<nodo56>56|<nodo57>|<nodo58>56|<nodo59>|<nodo60>56|<nodo61>|<nodo62>56|<nodo63>|<nodo64>56|<nodo65>|<nodo66>56|<nodo67>|<nodo68>56|<nodo69>|<nodo70>56|<nodo71>|<nodo72>56|<nodo73>|<nodo74>56|<nodo75>|<nodo76>57|<nodo77>|<nodo78>89|<nodo79>|<nodo80>90|<nodo81>|<nodo82>121|<nodo83>|<nodo84>190|<nodo85>"];
+}

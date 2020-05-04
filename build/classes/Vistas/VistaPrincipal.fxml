@@ -32,7 +32,13 @@
             </Tab>
           <Tab text="ArbolB">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="ImagenArbol" fitHeight="627.0" fitWidth="799.0" layoutX="244.0" pickOnBounds="true" preserveRatio="true" />
+                        <Separator layoutX="231.0" orientation="VERTICAL" prefHeight="627.0" prefWidth="16.0" />
+                        <Button layoutX="69.0" layoutY="95.0" mnemonicParsing="false" onAction="#InsertarDato" text="Ingresar Dato" />
+                        <TextField fx:id="DatoArbol" layoutX="38.0" layoutY="53.0" />
+                     </children></AnchorPane>
                </content>
             </Tab>
         </tabs>
