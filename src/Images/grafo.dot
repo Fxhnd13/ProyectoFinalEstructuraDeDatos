@@ -3,10 +3,18 @@ digraph G{
      node[style=filled];
      node[fillcolor="#EEEEEE"];
      edge[color="#31CEF0"];
-     guatemala->escuintla;
-     guatemala->antigua;
-     suchitepequez->escuintla;
-     quetzaltenango->suchitepequez;
-     antigua[fillcolor="forestgreen"];
+     guatemala->escuintla[label="Distancia: 0.0
+Tiempo: 1.0
+Gasolina: 20.0"];
+     guatemala->antigua[label="Distancia: 0.0
+Tiempo: 2.0
+Gasolina: 40.0"];
+     suchitepequez->escuintla[label="Distancia: 0.0
+Tiempo: 2.0
+Gasolina: 40.0"];
+     quetzaltenango->suchitepequez[label="Distancia: 0.0
+Tiempo: 2.5
+Gasolina: 50.0"];
+     escuintla[fillcolor="forestgreen"];
      rankdir=LR;
 }

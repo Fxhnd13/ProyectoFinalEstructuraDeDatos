@@ -83,7 +83,7 @@ public class VistaIngresoController implements Initializable {
 
             // Obtengo el controlador
             VistaPrincipalController controlador = loader.getController();
-            controlador.inicializar(this.grafo, this.PosicionesComboBox.getSelectionModel().getSelectedIndex());
+            controlador.inicializar(this.grafo, this.PosicionesComboBox.getSelectionModel().getSelectedItem());
 
             // Creo la scene y el stage
             Scene scene = new Scene(root);

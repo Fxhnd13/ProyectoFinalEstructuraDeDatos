@@ -11,7 +11,7 @@ package Modelos.Grafo;
  */
 public class Arista {
     String origen, destino;
-    double tiempoV, tiempoC, gasolina, esfuerzo;
+    double tiempoV, tiempoC, gasolina, esfuerzo, distancia = 0;
 
     Arista(String origen, String destino, double tiempoV, double tiempoC, double gasolina, double esfuerzo) {
         this.origen = origen;
@@ -68,5 +68,13 @@ public class Arista {
 
     public void setEsfuerzo(double esfuerzo) {
         this.esfuerzo = esfuerzo;
+    }
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
     }
 }

@@ -112,7 +112,7 @@ public class Grafo {
                 + "     edge[color=\"#31CEF0\"];";
             if(opcion == 1) cadena+= "     edge[arrowhead=\"none\"];";
             for (Arista arista : aristas) {
-                String datosArista = "[label=\"Tiempo: "+arista.getTiempoV()+"\nGasolina: "+arista.getGasolina()+"\"];";
+                String datosArista = "[label=\"Distancia: "+arista.getDistancia()+"\nTiempo: "+arista.getTiempoV()+"\nGasolina: "+arista.getGasolina()+"\"];";
                 cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
                 cadena += (datos)? datosArista : ";";
             }
