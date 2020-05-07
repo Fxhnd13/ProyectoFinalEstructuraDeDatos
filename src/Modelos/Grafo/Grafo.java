@@ -110,11 +110,19 @@ public class Grafo {
                 + "     node[style=filled];\n"
                 + "     node[fillcolor=\"#EEEEEE\"];\n"
                 + "     edge[color=\"#31CEF0\"];";
-            if(opcion == 1) cadena+= "     edge[arrowhead=\"none\"];";
-            for (Arista arista : aristas) {
-                String datosArista = "[label=\"Distancia: "+arista.getDistancia()+"\nTiempo: "+arista.getTiempoV()+"\nGasolina: "+arista.getGasolina()+"\"];";
-                cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
-                cadena += (datos)? datosArista : ";";
+            if(opcion == 1){
+                cadena+= "     edge[arrowhead=\"none\"];";
+                for (Arista arista : aristas) {
+                    String datosArista = "[label=\"Distancia: "+arista.getDistancia()+"\nTiempo: "+arista.getTiempoC()+"\nEsfuerzo: "+arista.getEsfuerzo()+"\"];";
+                    cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
+                    cadena += (datos)? datosArista : ";";
+                }
+            }else{
+                for (Arista arista : aristas) {
+                    String datosArista = "[label=\"Distancia: "+arista.getDistancia()+"\nTiempo: "+arista.getTiempoV()+"\nGasolina: "+arista.getGasolina()+"\"];";
+                    cadena += "\n     "+arista.getOrigen()+"->"+arista.getDestino();
+                    cadena += (datos)? datosArista : ";";
+                }
             }
             cadena += "\n     "+posicionActual+"[fillcolor=\"forestgreen\"];\n     rankdir=LR;\n}";
                 //crea el flujo para escribir en el archivo
@@ -149,6 +157,106 @@ public class Grafo {
         // Mensaje en caso de que falle
         }
         
+    }
+
+    public ArrayList<Nodo> nodosAccesibles(String origen, int opcion){
+        ArrayList<Nodo> nodosAccesibles = new ArrayList<Nodo>();
+        for (Nodo nodo : this.nodos) {
+            switch(opcion){
+                case 0:{
+                    if(getAristaEntre(origen, nodo.getIdentidad())!=null) nodosAccesibles.add(nodo);
+                    break;
+                }
+                case 1:{
+                    if((getAristaEntre(nodo.getIdentidad(), origen)!=null)||(getAristaEntre(origen, nodo.getIdentidad())!=null)) nodosAccesibles.add(nodo);
+                    break;
+                }
+            }
+        }
+        return nodosAccesibles;
+    }
+    
+    public void cargarTodasLasRutas(ArrayList<Ruta> rutas, Ruta ruta, String destino, int opcion, int opcionPeso){
+        Nodo nodoActual = this.getNodoPorIdentidad(ruta.getNodos().get(ruta.getNodos().size()-1));//obtenemos el nodo en el que nos encontramos
+        if(nodoActual.getIdentidad().equals(destino)){
+            rutas.add(ruta);
+        }else{
+            for (Nodo nodo : this.nodosAccesibles(nodoActual.getIdentidad() , opcion)) {
+                if(!yaEstuvimosEn(ruta, nodo.getIdentidad())){
+                    Ruta temporal = new Ruta();
+                    for (String nodo1 : ruta.getNodos()) {
+                        temporal.getNodos().add(nodo1);
+                    }
+                    temporal.setPesoTotal(ruta.getPesoTotal());
+                    temporal.getNodos().add(nodo.getIdentidad());
+                    if(opcionPeso!=0){
+                        temporal.setPesoTotal(temporal.getPesoTotal()+this.pesoEntre(nodoActual.getIdentidad(), nodo.getIdentidad(), opcion, opcionPeso));
+                    }
+                    cargarTodasLasRutas(rutas, temporal, destino, opcion, opcionPeso);
+                }
+            }
+        }
+    }
+
+    private boolean yaEstuvimosEn(Ruta ruta, String lugar) {
+        boolean valor = false;
+        for (int i = 0; i < ruta.getNodos().size(); i++) {
+            if(ruta.getNodos().get(i).equals(lugar)) valor = true;
+        }
+        return valor;
+    }
+    
+    private double pesoEntre(String origen, String destino, int opcion, int opcionPeso){
+        double valor = 0;
+        switch(opcion){
+            case 0:{//si es en vehiculo
+                if(opcionPeso == 1 || opcionPeso == 2) valor = getAristaEntre(origen, destino).getDistancia();
+                if(opcionPeso == 3 || opcionPeso == 4) valor = getAristaEntre(origen, destino).getTiempoV();
+                if(opcionPeso == 5 || opcionPeso == 6) valor = getAristaEntre(origen, destino).getGasolina();
+                if(opcionPeso == 7 || opcionPeso == 8) valor = (getAristaEntre(origen, destino).getEsfuerzo() + getAristaEntre(origen, destino).getDistancia())/2;
+                break;
+            }
+            case 1:{//si es caminando
+                if(opcionPeso == 1 || opcionPeso == 2){
+                    if(getAristaEntre(origen, destino)!=null){
+                        valor = getAristaEntre(origen, destino).getDistancia();
+                    }else{
+                        valor = getAristaEntre(origen, destino).getDistancia();
+                    }
+                }
+                if(opcionPeso == 3 || opcionPeso == 4){
+                    if(getAristaEntre(origen, destino)!=null){
+                        valor = getAristaEntre(origen, destino).getTiempoC();
+                    }else{
+                        valor = getAristaEntre(destino, origen).getTiempoC();
+                    }
+                }
+                if(opcionPeso == 5 || opcionPeso == 6){
+                    if(getAristaEntre(origen, destino)!=null){
+                        valor = getAristaEntre(origen, destino).getEsfuerzo();
+                    }else{
+                        valor = getAristaEntre(origen, destino).getEsfuerzo();
+                    }
+                }
+                if(opcionPeso == 7 || opcionPeso == 8){
+                    if(getAristaEntre(origen, destino)!=null){
+                        valor = (getAristaEntre(origen, destino).getEsfuerzo() + getAristaEntre(origen,destino).getDistancia())/2;
+                    }else{
+                        valor = (getAristaEntre(origen, destino).getEsfuerzo() + getAristaEntre(destino, origen).getDistancia())/2;
+                    }
+                }
+                break;
+            }
+        }
+        return valor;
+    }
+
+    public Ruta cargarRutaVehiculo(int opcion, String origen, String destino) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Ruta cargarRutaCaminando(int opcion, String origen, String destino) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
         
 }

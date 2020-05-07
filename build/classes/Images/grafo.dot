@@ -2,11 +2,40 @@ digraph G{
      node[shape=circle];
      node[style=filled];
      node[fillcolor="#EEEEEE"];
-     edge[color="#31CEF0"];
-     guatemala->escuintla;
-     guatemala->antigua;
-     suchitepequez->escuintla;
-     quetzaltenango->suchitepequez;
-     antigua[fillcolor="forestgreen"];
+     edge[color="#31CEF0"];     edge[arrowhead="none"];
+     guatemala->escuintla[label="Distancia: 0.0
+Tiempo: 10.0
+Esfuerzo: 50.0"];
+     guatemala->antigua[label="Distancia: 0.0
+Tiempo: 20.0
+Esfuerzo: 100.0"];
+     suchitepequez->escuintla[label="Distancia: 0.0
+Tiempo: 20.0
+Esfuerzo: 100.0"];
+     quetzaltenango->suchitepequez[label="Distancia: 0.0
+Tiempo: 25.0
+Esfuerzo: 125.0"];
+     sacatepequez->suchitepequez[label="Distancia: 0.0
+Tiempo: 1.0
+Esfuerzo: 4.0"];
+     peten->guatemala[label="Distancia: 0.0
+Tiempo: 5.0
+Esfuerzo: 4.0"];
+     peten->quetzaltenango[label="Distancia: 0.0
+Tiempo: 2.0
+Esfuerzo: 3.0"];
+     peten->escuintla[label="Distancia: 0.0
+Tiempo: 3.0
+Esfuerzo: 2.0"];
+     suchitepequez->guatemala[label="Distancia: 0.0
+Tiempo: 14.0
+Esfuerzo: 5.0"];
+     antigua->suchitepequez[label="Distancia: 0.0
+Tiempo: 5.0
+Esfuerzo: 2.0"];
+     antigua->sacatepequez[label="Distancia: 0.0
+Tiempo: 3.0
+Esfuerzo: 5.0"];
+     guatemala[fillcolor="forestgreen"];
      rankdir=LR;
 }

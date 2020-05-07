@@ -9,6 +9,7 @@ import Modelos.ArbolB.ArbolB;
 import Modelos.Grafo.Arista;
 import Modelos.Grafo.Grafo;
 import Modelos.Grafo.Nodo;
+import Modelos.Grafo.Ruta;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,14 +66,17 @@ public class VistaPrincipalController implements Initializable {
     @FXML
     private TextField DatoArbol;
     
-    private Grafo grafo;
-    private ArbolB arbol = new ArbolB(5);
     @FXML
     private ComboBox<String> ClasificacionRutas;
     @FXML
     private ComboBox<String> DestinoComboBox1;
     @FXML
     private TextField PosicionActualTexto;
+    
+    
+    private Grafo grafo;
+    private ArbolB arbol = new ArbolB(5);
+    private ArrayList<Ruta> rutasActivas = new ArrayList<Ruta>();
     
     /**
      * Initializes the controller class.
@@ -150,6 +157,58 @@ public class VistaPrincipalController implements Initializable {
     
     @FXML
     private void ConsultarCamino(ActionEvent event) {
+        this.rutasActivas.clear();
+        int clasificacionRutas = this.ClasificacionRutas.getSelectionModel().getSelectedIndex();
+        switch(this.TipoMovimientoComboBox.getSelectionModel().getSelectedIndex()){
+            case 0:{
+                if(this.ClasificacionRutas.getSelectionModel().getSelectedIndex()==0){
+                    Ruta temporal = new Ruta();
+                    temporal.getNodos().add(this.OrigenComboBox.getSelectionModel().getSelectedItem());
+                    this.grafo.cargarTodasLasRutas(rutasActivas, temporal, this.DestinoComboBox.getSelectionModel().getSelectedItem(), 0, 0);
+                }else{
+                    if(clasificacionRutas>0 && clasificacionRutas<9){
+                        //aqui es donde se muestran las mejores y peores rutas según lo especificado
+                        Ruta temporal = new Ruta();
+                        temporal.getNodos().add(this.OrigenComboBox.getSelectionModel().getSelectedItem());
+                        this.grafo.cargarTodasLasRutas(rutasActivas, temporal, this.DestinoComboBox.getSelectionModel().getSelectedItem(), 0, clasificacionRutas);
+                        Collections.sort(rutasActivas);
+                        mostrarMensajeDeRutas(0, clasificacionRutas);
+                    }
+                }
+                break;
+            }
+            case 1:{
+                if(this.ClasificacionRutas.getSelectionModel().getSelectedIndex()==0){
+                    Ruta temporal = new Ruta();
+                    temporal.getNodos().add(this.OrigenComboBox.getSelectionModel().getSelectedItem());
+                    this.grafo.cargarTodasLasRutas(rutasActivas, temporal, this.DestinoComboBox.getSelectionModel().getSelectedItem(), 1, 0);
+                }else{
+                    if(clasificacionRutas>0 && clasificacionRutas<9){
+                        //aqui es donde se muestran las mejores y peores rutas según lo especificado
+                        Ruta temporal = new Ruta();
+                        temporal.getNodos().add(this.OrigenComboBox.getSelectionModel().getSelectedItem());
+                        this.grafo.cargarTodasLasRutas(rutasActivas, temporal, this.DestinoComboBox.getSelectionModel().getSelectedItem(), 1, clasificacionRutas);
+                        Collections.sort(rutasActivas);
+                        mostrarMensajeDeRutas(1, clasificacionRutas);
+                    }
+                }
+                break;
+            }
+        }
+        if(clasificacionRutas == 0){
+            String mensaje = "";
+            int id = 1;
+            for (Ruta rutasActiva : rutasActivas) {
+                mensaje+=id+") ";
+                for (String nodo : rutasActiva.getNodos()) {
+                    mensaje+=nodo+"->";
+                }
+                mensaje = mensaje.substring(0, mensaje.length()-2);
+                mensaje+="\n\n";
+                id++;
+            }
+            this.mostrarMensajeInformativo("Las Rutas Disponibles son: \n"+mensaje);
+        }
     }
 
 
@@ -238,12 +297,15 @@ public class VistaPrincipalController implements Initializable {
 
     private void recargarClasificacionRutas() {
         ObservableList<String> funcionalidades = FXCollections.observableArrayList();
+        funcionalidades.add("Todas las rutas posibles");
+        funcionalidades.add("Mejor ruta por Distancia");
+        funcionalidades.add("Peor ruta por distancia");
+        funcionalidades.add("Mejor ruta por tiempo");
+        funcionalidades.add("Peor ruta por tiempo");
         switch(this.TipoMovimientoComboBox.getSelectionModel().getSelectedIndex()){
             case 0:{
                 funcionalidades.add("Mejor ruta por gasolina");
                 funcionalidades.add("Peor ruta por gasolina");
-                funcionalidades.add("Mejor ruta por distancia");
-                funcionalidades.add("Peor ruta por distancia");
                 funcionalidades.add("Mejor ruta por gasolina y distancia");
                 funcionalidades.add("Peor ruta por gasolina y distancia");
                 break;
@@ -251,13 +313,36 @@ public class VistaPrincipalController implements Initializable {
             case 1:{
                 funcionalidades.add("Mejor ruta por esfuerzo");
                 funcionalidades.add("Peor ruta por esfuerzo");
-                funcionalidades.add("Mejor ruta por distancia");
-                funcionalidades.add("Peor ruta por distancia");
                 funcionalidades.add("Mejor ruta por esfuerzo y distancia");
                 funcionalidades.add("Peor ruta por esfuerzo y distancia");
                 break;
             }
         }
         this.ClasificacionRutas.setItems(funcionalidades);
+    }
+    
+    public void mostrarMensajeDeRutas(int tipoMovimiento, int tipoReporte){
+        String mensaje = "La ";
+        mensaje+= this.ClasificacionRutas.getItems().get(tipoReporte)+" es: \n";
+        Ruta rutasActiva = null;
+        if(this.ClasificacionRutas.getItems().get(tipoReporte).contains("Peor")){
+            //peor
+            rutasActiva = rutasActivas.get(rutasActivas.size()-1);
+            for (String nodo : rutasActiva.getNodos()) {
+                mensaje+=nodo+"->";
+            }
+            mensaje = mensaje.substring(0, mensaje.length()-2);
+            mensaje+="\n\n";
+        }else{
+            //mejor
+            rutasActiva = rutasActivas.get(0);
+            for (String nodo : rutasActiva.getNodos()) {
+                mensaje+=nodo+"->";
+            }
+            mensaje = mensaje.substring(0, mensaje.length()-2);
+            mensaje+="\n\n";
+        }
+        mensaje+="Con un total de: "+rutasActiva.getPesoTotal();
+        this.mostrarMensajeInformativo(mensaje);
     }
 }

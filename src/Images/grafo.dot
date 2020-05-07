@@ -15,6 +15,27 @@ Gasolina: 40.0"];
      quetzaltenango->suchitepequez[label="Distancia: 0.0
 Tiempo: 2.5
 Gasolina: 50.0"];
-     escuintla[fillcolor="forestgreen"];
+     sacatepequez->suchitepequez[label="Distancia: 0.0
+Tiempo: 3.0
+Gasolina: 6.0"];
+     peten->guatemala[label="Distancia: 0.0
+Tiempo: 5.0
+Gasolina: 2.0"];
+     peten->quetzaltenango[label="Distancia: 0.0
+Tiempo: 3.0
+Gasolina: 5.0"];
+     peten->escuintla[label="Distancia: 0.0
+Tiempo: 23.0
+Gasolina: 5.0"];
+     suchitepequez->guatemala[label="Distancia: 0.0
+Tiempo: 3.0
+Gasolina: 4.0"];
+     antigua->suchitepequez[label="Distancia: 0.0
+Tiempo: 4.0
+Gasolina: 3.0"];
+     antigua->sacatepequez[label="Distancia: 0.0
+Tiempo: 5.0
+Gasolina: 2.0"];
+     guatemala[fillcolor="forestgreen"];
      rankdir=LR;
 }
