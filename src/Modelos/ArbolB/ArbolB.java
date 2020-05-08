@@ -55,7 +55,7 @@ public class ArbolB {
     public boolean delete(){
         boolean minimo = false;
         this.claves.remove(this.claves.size()-1);
-        int factor = (this.claves.size()/ 2)-1;
+        int factor = ((grado-1) / 2);
         if(this.claves.size() < (factor)) minimo = true;
         return minimo;
     }
@@ -82,8 +82,8 @@ public class ArbolB {
         if(this.hijos.isEmpty()){
             minimo = this.delete();
         }else{
-            if(this.eliminarClave()){
-                int factor = (this.hijos.get(this.hijos.size()-2).getClaves().size()/2);
+            if(this.hijos.get(this.hijos.size()-1).eliminarClave()){//si eliminando el ultimo nodo del hijo mas a la derecha queda desequilibrado
+                int factor = ((this.grado-1)/2);//obtenemos el factor
                 if(this.hijos.get(this.hijos.size()-2).getClaves().size() > factor){
                     int temporal = this.claves.get(this.claves.size()-1);
                     this.hijos.get(this.hijos.size()-1).getClaves().add(0, temporal);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Ruta implements Comparable<Ruta> {
     
     ArrayList<String> nodos = new ArrayList<String>();
-    double pesoTotal;
+    double pesoTotal = 0;
 
     public double getPesoTotal() {
         return pesoTotal;

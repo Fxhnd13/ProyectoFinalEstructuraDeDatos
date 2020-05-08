@@ -14,9 +14,10 @@
         <group>
             <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/Grafo/Grafo.java</file>
             <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/VistaIngresoController.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/VistaPrincipalController.java</file>
+            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/Grafo/Arista.java</file>
+            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/Grafo/Ruta.java</file>
             <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/ArchivosController.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Images/arbol.dot</file>
+            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/VistaPrincipalController.java</file>
             <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/ArbolB/ArbolB.java</file>
         </group>
     </open-files>
