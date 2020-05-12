@@ -14,6 +14,6 @@ digraph G{
      suchitepequez->guatemala;
      antigua->suchitepequez;
      antigua->sacatepequez;
-     antigua[fillcolor="forestgreen"];
+     guatemala[fillcolor="forestgreen"];
      rankdir=LR;
 }

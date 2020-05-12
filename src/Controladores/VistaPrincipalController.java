@@ -10,6 +10,7 @@ import Modelos.Grafo.Arista;
 import Modelos.Grafo.Grafo;
 import Modelos.Grafo.Nodo;
 import Modelos.Grafo.Ruta;
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -270,6 +271,8 @@ public class VistaPrincipalController implements Initializable {
                     this.ConsultarCamino(null);
                 }else{
                     this.rutasActivas.clear();
+                    this.OrigenComboBox.getSelectionModel().select(null);
+                    this.DestinoComboBox.getSelectionModel().select(null);
                     this.limpiarArbol();
                 }
             }
@@ -468,6 +471,34 @@ public class VistaPrincipalController implements Initializable {
             id++;
         }
         this.mostrarMensajeInformativo("Las Rutas Disponibles son: \n"+mensaje);
+    }
+
+    @FXML
+    private void AbrirImagenGrafo(MouseEvent event) {
+        try {
+
+            File objetofile = new File ("src/Images/grafo.png");
+            Desktop.getDesktop().open(objetofile);
+
+        }catch (IOException ex) {
+
+               System.out.println(ex);
+
+        }
+    }
+
+    @FXML
+    private void AbrirImagenArbol(MouseEvent event) {
+        try {
+
+            File objetofile = new File ("src/Images/arbol.png");
+            Desktop.getDesktop().open(objetofile);
+
+        }catch (IOException ex) {
+
+               System.out.println(ex);
+
+        }
     }
     
 }
