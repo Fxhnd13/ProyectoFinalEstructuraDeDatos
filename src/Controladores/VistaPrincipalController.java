@@ -41,6 +41,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 /**
@@ -88,6 +89,7 @@ public class VistaPrincipalController implements Initializable {
         // TODO
     }    
 
+    //metodo que carga todo lo visual que hay en el programa
     public void inicializar(Grafo grafo, String posicionActual){
         this.grafo = grafo; //creamos el grafo para este mapa
         
@@ -118,7 +120,7 @@ public class VistaPrincipalController implements Initializable {
         InputStream isImage = null;
         try {
             this.grafo.generarImagen(datos, opcion);
-            File img = new File("src\\Images\\grafo.png");
+            File img = new File("src/Images/grafo.png");
             isImage = (InputStream) new FileInputStream(img);
             this.ImagenGrafo.setImage(new Image(isImage));
         } catch (FileNotFoundException ex) {
@@ -159,15 +161,18 @@ public class VistaPrincipalController implements Initializable {
     
     @FXML
     private void ConsultarCamino(ActionEvent event) {
+        this.limpiarArbol();
         this.rutasActivas.clear(); //limpiamos las rutas posibles que puedan haber cargadas
         int clasificacionRutas = this.ClasificacionRutas.getSelectionModel().getSelectedIndex(); //miramos como se quieren consultar las rutas
         //Aqui dentro se consultan las rutas
         switch(this.TipoMovimientoComboBox.getSelectionModel().getSelectedIndex()){
-            case 0:{
-                if(this.ClasificacionRutas.getSelectionModel().getSelectedIndex()==0){
-                    Ruta temporal = new Ruta();
+            case 0:{//si es en vehiculo
+                if(this.ClasificacionRutas.getSelectionModel().getSelectedIndex()==0){//obtenemos el tipo de clasificacion de las rutas que deseamos
+                    Ruta temporal = new Ruta();//agregamos la ruta inicial partiendo del punto origen seleccionado
                     temporal.getNodos().add(this.OrigenComboBox.getSelectionModel().getSelectedItem());
+                    //cargamos todas las rutas posibles a partir de ese punto
                     this.grafo.cargarTodasLasRutas(rutasActivas, temporal, this.DestinoComboBox.getSelectionModel().getSelectedItem(), 0, 0);
+                    //las ordenamos por coste, segun lo que se haya especificado antes
                     Collections.sort(rutasActivas);
                 }else{
                     if(clasificacionRutas>0 && clasificacionRutas<9){
@@ -213,7 +218,7 @@ public class VistaPrincipalController implements Initializable {
                 mensaje+="\n\n";
                 id++;
             }
-            this.mostrarMensajeInformativo("Las Rutas Disponibles son: \n"+mensaje);
+            this.mostrarMensajeInformativo("Las Rutas Disponibles son: \n\n"+mensaje);
         }
         //agreagamos el listado de rutas a el listado del arbolB
         ObservableList<Integer> rutas = FXCollections.observableArrayList();
@@ -257,24 +262,29 @@ public class VistaPrincipalController implements Initializable {
             this.PosicionActualTexto.setText(this.grafo.getPosicionActual());
             this.RecargarImagen(null);//recargamos la imagen
             this.mostrarMensajeInformativo("Se ha movido con éxito de "+origen+" hacia "+destino); seMovio= true;
-            if(!rutasActivas.isEmpty()){//si hay una ruta cargada
-                seMovio = false;//utilizamos seMovio para saber si el movimiento fue sobre la alguna de las rutas calculadas
-                for (Ruta ruta : rutasActivas) {
-                    if(ruta.getNodos().get(1).equals(destino)) seMovio = true;
-                }
-                if(seMovio){//si se movio sobre la ruta
-                    for (int i = 0; i < rutasActivas.size(); i++) { //removemos todas las rutas que no pertenezcan
-                        if(this.rutasActivas.get(i).getNodos().get(1)!=this.grafo.getPosicionActual()){
-                            this.rutasActivas.remove(i);//removemos la ruta si no coincide con el movimiento que hicimos
-                        }else{
-                            this.rutasActivas.get(i).getNodos().remove(0);//eliminamos el nodo incial de cada ruta, si el movimiento coincide
-                        }
+            if(!rutasActivas.isEmpty()){//si hay una o varias rutas cargadas entonces
+                if(rutasActivas.get(0).getNodos().get(0).equals(origen)){
+                    seMovio = false;//utilizamos seMovio para saber si el movimiento fue sobre la alguna de las rutas calculadas
+                    for (Ruta ruta : rutasActivas) {//por cada ruta precargada que tengamos
+                        if(ruta.getNodos().get(1).equals(destino)) seMovio = true;
                     }
-                }else{//si no se movio sobre la ruta
-                    this.OrigenComboBox.getSelectionModel().select(this.grafo.getPosicionActual());//cambiamos el origen 
-                    String destinoTemporal = this.rutasActivas.get(0).getNodos().get(this.rutasActivas.get(0).getNodos().size()-1);
-                    this.DestinoComboBox.getSelectionModel().select(destinoTemporal);
-                    this.ConsultarCamino(null);
+                    if(seMovio){//si se movio sobre la ruta
+                        for (int i = 0; i < rutasActivas.size(); i++) { //removemos todas las rutas que no pertenezcan
+                            if(this.rutasActivas.get(i).getNodos().get(1)!=this.grafo.getPosicionActual()){
+                                this.rutasActivas.remove(i);//removemos la ruta si no coincide con el movimiento que hicimos
+                            }else{
+                                this.rutasActivas.get(i).getNodos().remove(0);//eliminamos el nodo incial de cada ruta, si el movimiento coincide
+                            }
+                        }
+                    }else{//si no se movio sobre la ruta
+                        this.OrigenComboBox.getSelectionModel().select(this.grafo.getPosicionActual());//cambiamos el origen 
+                        String destinoTemporal = this.rutasActivas.get(0).getNodos().get(this.rutasActivas.get(0).getNodos().size()-1);
+                        this.DestinoComboBox.getSelectionModel().select(destinoTemporal);
+                        this.ConsultarCamino(null);
+                    }
+                }else{
+                    this.rutasActivas.clear();
+                    this.limpiarArbol();
                 }
             }
         }
@@ -298,21 +308,25 @@ public class VistaPrincipalController implements Initializable {
     }
         
     public void recargarArbolB(){
-        InputStream isImage = null;
-        try{
-            this.arbol.generarGrafico();
-            File img = new File("src\\Images\\arbol.png");
-            isImage = (InputStream) new FileInputStream(img);
-            this.ImagenArbol.setImage(new Image(isImage));
-            this.DatoArbol.setText("");
-        } catch (FileNotFoundException ex) {
-            this.mostrarMensajeError("Se produjo un error al acceder al archivo \"arbol.png\"");
-        } finally {
-            try {
-                isImage.close();
-            } catch (IOException ex) {
-                this.mostrarMensajeError("Se produjo un error al cerrar el Inputstream de la imagen arbol");
+        if(this.arbol.getClaves().size()>0){
+            InputStream isImage = null;
+            try{
+                this.arbol.generarGrafico();
+                File img = new File("src/Images/arbol.png");
+                isImage = (InputStream) new FileInputStream(img);
+                this.ImagenArbol.setImage(new Image(isImage));
+                this.DatoArbol.setText("");
+            } catch (FileNotFoundException ex) {
+                this.mostrarMensajeError("Se produjo un error al acceder al archivo \"arbol.png\"");
+            } finally {
+                try {
+                    isImage.close();
+                } catch (IOException ex) {
+                    this.mostrarMensajeError("Se produjo un error al cerrar el Inputstream de la imagen arbol");
+                }
             }
+        }else{
+            this.ImagenArbol.setImage(null);
         }
     }
     
@@ -321,6 +335,7 @@ public class VistaPrincipalController implements Initializable {
         alert.setHeaderText(null);
         alert.setTitle("Error");
         alert.setContentText(mensaje);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
     
@@ -329,23 +344,36 @@ public class VistaPrincipalController implements Initializable {
         alert.setHeaderText(null);
         alert.setTitle("Informacion");
         alert.setContentText(mensaje);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
 
     @FXML
     private void EliminarClave(ActionEvent event) {
-        if(arbol.eliminarClave()){
-            int padreTemp = arbol.getClaves().get(0);
-            ArrayList<Integer> hijosDerecha = arbol.getHijos().get(1).getClaves();
-            arbol.getHijos().remove(1);
-            ArbolB auxiliar = arbol.getHijos().get(0);
-            auxiliar.getClaves().add(padreTemp);
-            for (Integer clave : hijosDerecha) {
-                auxiliar.getClaves().add(clave);
+        if(!arbol.getHijos().isEmpty()){
+            if(arbol.eliminarClave()){
+                int padreTemp = arbol.getClaves().get(0);
+                ArrayList<Integer> hijosDerecha = arbol.getHijos().get(1).getClaves();
+                arbol.getHijos().remove(1);
+                ArbolB auxiliar = arbol.getHijos().get(0);
+                auxiliar.getClaves().add(padreTemp);
+                for (Integer clave : hijosDerecha) {
+                    auxiliar.getClaves().add(clave);
+                }
+                arbol = auxiliar;
+            }   
+        }else{
+            if(!arbol.getClaves().isEmpty()){
+                arbol.getClaves().remove(arbol.getClaves().size()-1);
             }
-            arbol = auxiliar;
         }
         this.recargarArbolB();
+    }
+    
+    private void limpiarArbol(){
+        while(this.arbol.getClaves().size()>0){
+            this.EliminarClave(null);
+        }
     }
 
     private void recargarClasificacionRutas() {

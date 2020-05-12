@@ -247,6 +247,7 @@ public class ArbolB {
         }
         
         try {
+            //aqui de nuevo hay que cambiar el comando para crear la imagen que necesitamos
             String [] cmd = {"dot","-Tpng","-o", "src/Images/arbol.png", "src/Images/arbol.dot"};
             Runtime.getRuntime().exec(cmd);
             
@@ -254,7 +255,7 @@ public class ArbolB {
                 System.out.println (ioe);
         }
         try {
-            Thread.sleep (200);
+            Thread.sleep (300);
         } catch (Exception e) {
         // Mensaje en caso de que falle
         }

@@ -44,7 +44,8 @@ public class ArchivosController {
                         Double.parseDouble(datos[2]),
                         Double.parseDouble(datos[3]),
                         Double.parseDouble(datos[4]),
-                        Double.parseDouble(datos[5]));
+                        Double.parseDouble(datos[5]),
+                        Double.parseDouble(datos[6]));
             }
             
         } catch (Exception e) {

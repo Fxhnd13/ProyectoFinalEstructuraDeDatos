@@ -12,13 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/Grafo/Grafo.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/VistaIngresoController.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/Grafo/Arista.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/Grafo/Ruta.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/ArchivosController.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Controladores/VistaPrincipalController.java</file>
-            <file>file:/C:/Users/jose_/Documents/DevMazate/Guatemala's%20Waze/src/Modelos/ArbolB/ArbolB.java</file>
+            <file>file:/home/fxhnd/NetBeansProjects/ProyectoFinalEstructuraDeDatos/src/Controladores/VistaPrincipalController.java</file>
+            <file>file:/home/fxhnd/NetBeansProjects/ProyectoFinalEstructuraDeDatos/src/Modelos/Grafo/Grafo.java</file>
+            <file>file:/home/fxhnd/NetBeansProjects/ProyectoFinalEstructuraDeDatos/src/Controladores/ArchivosController.java</file>
+            <file>file:/home/fxhnd/NetBeansProjects/ProyectoFinalEstructuraDeDatos/src/Modelos/ArbolB/ArbolB.java</file>
         </group>
     </open-files>
 </project-private>

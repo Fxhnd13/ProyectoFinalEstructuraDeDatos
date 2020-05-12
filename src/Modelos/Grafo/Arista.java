@@ -11,15 +11,16 @@ package Modelos.Grafo;
  */
 public class Arista {
     String origen, destino;
-    double tiempoV, tiempoC, gasolina, esfuerzo, distancia = 0;
+    double tiempoV, tiempoC, gasolina, esfuerzo, distancia;
 
-    Arista(String origen, String destino, double tiempoV, double tiempoC, double gasolina, double esfuerzo) {
+    Arista(String origen, String destino, double tiempoV, double tiempoC, double gasolina, double esfuerzo, double distancia) {
         this.origen = origen;
         this.destino = destino;
         this.tiempoV = tiempoV;
         this.tiempoC = tiempoC;
         this.gasolina = gasolina;
         this.esfuerzo = esfuerzo;
+        this.distancia = distancia;
     }
 
     public String getOrigen() {

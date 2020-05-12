@@ -40,7 +40,7 @@ public class Grafo {
         return nodo;
     }
     
-    public void agregarArista(String origen, String destino, double tiempoV, double tiempoC, double gasolina, double esfuerzo){
+    public void agregarArista(String origen, String destino, double tiempoV, double tiempoC, double gasolina, double esfuerzo, double distancia){
         boolean existeOrigen = false, existeDestino = false;
         for (Nodo nodo : this.nodos) {
             if(nodo.getIdentidad().equals(origen)) existeOrigen = true;
@@ -48,7 +48,7 @@ public class Grafo {
         }
         if(existeOrigen && existeDestino){//si existen los dos puntos a unir
             boolean existeArista = false;
-            Arista arista = new Arista(origen, destino, tiempoV, tiempoC, gasolina, esfuerzo);
+            Arista arista = new Arista(origen, destino, tiempoV, tiempoC, gasolina, esfuerzo, distancia);
             for (Arista aristaTemp : this.aristas) {//verificamos que no haya ya una arista entre nuestros puntos
                 if(aristaTemp.equals(arista)) existeArista = true;
             }
@@ -74,7 +74,7 @@ public class Grafo {
                 this.nodos.add(nuevoOrigen);
                 this.nodos.add(nuevoDestino);
             }
-            Arista arista = new Arista(origen, destino, tiempoV, tiempoC, gasolina, esfuerzo);
+            Arista arista = new Arista(origen, destino, tiempoV, tiempoC, gasolina, esfuerzo, distancia);
             this.aristas.add(arista);
         }
     }
@@ -145,6 +145,7 @@ public class Grafo {
         }
         
         try {
+//            aquí es donde tenemos que ejecutar el comando apra crear la imagen del grafo 
             String [] cmd = {"dot","-Tpng","-o", "src/Images/grafo.png", "src/Images/grafo.dot"};
             Runtime.getRuntime().exec(cmd);
         } catch (IOException ioe) {
@@ -152,7 +153,7 @@ public class Grafo {
         }
         
         try {
-            Thread.sleep (200);
+            Thread.sleep (300);
         } catch (Exception e) {
         // Mensaje en caso de que falle
         }
@@ -249,14 +250,6 @@ public class Grafo {
             }
         }
         return valor;
-    }
-
-    public Ruta cargarRutaVehiculo(int opcion, String origen, String destino) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Ruta cargarRutaCaminando(int opcion, String origen, String destino) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
         
 }
