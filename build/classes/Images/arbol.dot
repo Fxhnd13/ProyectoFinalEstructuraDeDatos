@@ -1,4 +1,4 @@
 digraph{
 node [shape = record, height=.1];
-nodo0[label="<nodo1>|<nodo2>34|<nodo3>"];
+nodo0[label="<nodo1>|<nodo2>1|<nodo3>"];
 }

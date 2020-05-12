@@ -227,7 +227,7 @@ public class VistaPrincipalController implements Initializable {
         }
         this.IdRutasComboBox.setItems(rutas);
         for (int i = 0; i < rutasActivas.size(); i++) {
-            this.DatoArbol.setText(String.valueOf(i));
+            this.DatoArbol.setText(String.valueOf((i+1)));
             this.InsertarDato(null);
         }
         this.DatoArbol.setText("");
@@ -264,24 +264,10 @@ public class VistaPrincipalController implements Initializable {
             this.mostrarMensajeInformativo("Se ha movido con éxito de "+origen+" hacia "+destino); seMovio= true;
             if(!rutasActivas.isEmpty()){//si hay una o varias rutas cargadas entonces
                 if(rutasActivas.get(0).getNodos().get(0).equals(origen)){
-                    seMovio = false;//utilizamos seMovio para saber si el movimiento fue sobre la alguna de las rutas calculadas
-                    for (Ruta ruta : rutasActivas) {//por cada ruta precargada que tengamos
-                        if(ruta.getNodos().get(1).equals(destino)) seMovio = true;
-                    }
-                    if(seMovio){//si se movio sobre la ruta
-                        for (int i = 0; i < rutasActivas.size(); i++) { //removemos todas las rutas que no pertenezcan
-                            if(this.rutasActivas.get(i).getNodos().get(1)!=this.grafo.getPosicionActual()){
-                                this.rutasActivas.remove(i);//removemos la ruta si no coincide con el movimiento que hicimos
-                            }else{
-                                this.rutasActivas.get(i).getNodos().remove(0);//eliminamos el nodo incial de cada ruta, si el movimiento coincide
-                            }
-                        }
-                    }else{//si no se movio sobre la ruta
-                        this.OrigenComboBox.getSelectionModel().select(this.grafo.getPosicionActual());//cambiamos el origen 
-                        String destinoTemporal = this.rutasActivas.get(0).getNodos().get(this.rutasActivas.get(0).getNodos().size()-1);
-                        this.DestinoComboBox.getSelectionModel().select(destinoTemporal);
-                        this.ConsultarCamino(null);
-                    }
+                    this.OrigenComboBox.getSelectionModel().select(this.grafo.getPosicionActual());
+                    String destinoTemporal = this.rutasActivas.get(0).getNodos().get(this.rutasActivas.get(0).getNodos().size()-1);
+                    this.DestinoComboBox.getSelectionModel().select(destinoTemporal);
+                    this.ConsultarCamino(null);
                 }else{
                     this.rutasActivas.clear();
                     this.limpiarArbol();
@@ -447,6 +433,9 @@ public class VistaPrincipalController implements Initializable {
                         this.rutasActivas.clear();
                     }
                 }
+            }else{
+                this.mostrarMensajeError("No se encuentra en la posicion inicial de la ruta calculada.\nPosicion:"+this.grafo.getPosicionActual()+"\nInicio de ruta: "+
+                        this.rutasActivas.get(idRuta).getNodos().get(0));
             }
         }
     }
@@ -461,7 +450,7 @@ public class VistaPrincipalController implements Initializable {
             mensaje+=nodo+"->";
         }
         mensaje = mensaje.substring(0, mensaje.length()-2);
-        this.mostrarMensajeInformativo("La ruta está conformada así: \n\n");
+        this.mostrarMensajeInformativo("La ruta está conformada así: \n\n"+mensaje);
     }
 
     @FXML
